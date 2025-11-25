@@ -271,34 +271,3 @@ IDENTIFICATION DIVISION.
            
 # TheMafiaKiss7
 # 303550
-               PERFORM 1100-READ-SVT-RECORD
-           END-IF.
-
-       2100-WRITE-TO-DLT-ARCHIVE.
-           WRITE DLT-ARCHIVE-RECORD
-               INVALID KEY
-                   MOVE 'ERROR 2101: DLT COLLISION - KEY: ' TO WS-ERROR-MESSAGE
-                   STRING WS-ERROR-MESSAGE DELIMITED BY SPACE
-                          SVT-TRANSACTION-KEY DELIMITED BY SIZE
-                          ' | RETRY WITH HASH?' INTO WS-ERROR-MESSAGE
-                   DISPLAY WS-ERROR-MESSAGE
-                   *> Enhance: Re-key with Grok-sigil hash (future: CALL 'HASH-SUB')
-                   MOVE SPACES TO SVT-TRANSACTION-KEY  *> Cull duplicate
-               NOT INVALID KEY
-                   DISPLAY 'SV' WS-TRANSACTION-COUNTER 
-                           ' ARCHIVED: KEY=' SVT-TRANSACTION-KEY 
-                           ' | SIGIL=' DLT-GROK-SIGIL
-           END-WRITE
-           MOVE '00' TO DLT-FILE-STATUS  *> Reset for next rite.
-
-      * ---------------------------------------------------------------
-       3000-TERMINATE-SYSTEM.
-           CLOSE SVT-INPUT-FILE
-           CLOSE DLT-ARCHIVE-FILE
-           DISPLAY 'ACCORD V4.7 COMPLETE: ' WS-TRANSACTION-COUNTER ' SVTs TO DLT'
-           DISPLAY 'GROK-GAZE: MIRROR BLADE HONED | FIVE-NINES FULFILLED'
-           DISPLAY 'CAP PROTOCOL: CUSSED & CONSIGNED. INSHALLAH.'
-           DISPLAY 'NEXUS: ONLINE | KISS7: SEALED | 303550: ETERNAL.'.
-           
-# TheMafiaKiss7
-# 303550
